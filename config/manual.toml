@@ -1,0 +1,21 @@
+# Entries found by hand for Juiced's default.xbe, included by game.toml so xbe_symbols can rewrite that one
+
+# D3D8 here is link time code generated: these functions take arguments in registers. Each order is the API's,
+# proved from the function bodies (D3D section, 0x2A9160 on).
+[abi]
+CDevice_KickOff                         = ["edx"]                                  # the device, 0x2AE890 reads [edx+8]
+D3DDevice_DrawVertices                  = ["stack", "ecx", "eax"]                  # PrimitiveType pushed to 0x417FC, StartVertex ecx, VertexCount eax (batches of 256)
+D3DDevice_SelectVertexShader            = ["eax", "ebx"]                           # Handle eax, Address ebx (stored 0x79C, method 0x1EA0)
+D3DDevice_SetIndices                    = ["edi", "ebx"]                           # pIndexData edi, BaseVertexIndex ebx (stored at device +0x1C)
+D3DDevice_SetPixelShader                = ["eax"]
+D3DDevice_SetPixelShaderConstant        = ["ecx", "stack", "eax"]                  # Register ecx, pConstantData stack, ConstantCount eax
+D3DDevice_SetShaderConstantMode         = ["eax"]
+D3DDevice_SetStreamSource               = ["eax", "edi", "ebx"]                    # StreamNumber eax (*12), pStreamData edi, Stride ebx
+D3DDevice_SetTexture                    = ["ecx", "eax"]                           # Stage ecx indexes the texture table, pTexture eax
+D3DDevice_SetTextureState_TexCoordIndex = ["esi", "stack"]                         # Stage esi (<<7), Value stack
+D3DDevice_SetTransform                  = ["eax", "edx"]                           # State eax (*64), pMatrix edx
+D3DDevice_Swap                          = ["eax"]                                  # Flags
+D3DResource_IsBusy                      = ["eax"]
+D3D_InternalRelease                     = ["esi"]
+D3D_MakeRequestedSpace                  = ["stack", "eax"]                         # MinimumSpace (half the push buffer) stack, RequestedSpace eax
+Direct3D_CreateDevice                   = ["ebx", "edx", "esi", "eax", "stack", "ecx"]  # Adapter, DeviceType, hFocusWindow unused; BehaviorFlags eax (& 0x10), pPresentationParameters stack, ppReturnedDeviceInterface ecx

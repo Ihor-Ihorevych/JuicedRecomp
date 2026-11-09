@@ -1,0 +1,51 @@
+# build
+/out/
+/build/
+*.zip
+*.pdb
+*.exe
+*.obj
+*.o
+*.log
+
+# recompiled code, derived from the game
+/generated/
+
+# user's own game files
+/assets/
+
+# frame captures (F3), which hold the game's textures and shaders
+/captures/
+
+# runtime files
+settings.toml
+/logs/
+/hdd/
+/CrashDumps/
+
+# this PC's own build and debug scripts, and the SDK changes, sent upstream as TGP482/XboxXBERecomp#25
+/dev.bat
+/jogar-debug.bat
+/sdk-changes.patch
+
+# the SDK author's funding file, not this port's
+/sdk/.github/
+
+# editors
+.vs/
+.vscode/
+.idea/
+
+# Local temporary folder
+.local
+
+# the game itself, in any form: disc images and the files extracted from them
+*.iso
+/game_files/
+
+# fetched by CMake when absent (android/CMakeLists.txt, tools-build/CMakeLists.txt)
+/third_party/glslang/
+
+# host tools build, and the Android debug build's scratch
+/tools-build/build/
+*.apk

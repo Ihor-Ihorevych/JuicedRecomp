@@ -1,0 +1,51 @@
+name: CI
+
+# The game's files are not in this repository, so CI cannot build an APK (the recompiled game code comes from default.xbe).
+# It checks everything that does not need them.
+on:
+  push:
+  pull_request:
+
+jobs:
+  tools-and-shaders:
+    name: Recompiler tools and shader compiler
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build xbe_recomp, xbe_symbols and the shader probe
+        run: |
+          cmake -S tools-build -B tools-build/build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake --build tools-build/build
+      - name: Every generated shader variant must compile to SPIR-V
+        run: ./tools-build/build/shader_probe
+
+  android:
+    name: Android arm64 (compile check) and Java
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch glslang and SDL
+        run: |
+          git clone --depth 1 --branch 15.4.0 https://github.com/KhronosGroup/glslang.git third_party/glslang
+          git clone --depth 1 --branch release-3.4.16 https://github.com/libsdl-org/SDL.git "$RUNNER_TEMP/SDL"
+      - name: The runtime compiles for arm64 Android
+        run: |
+          CXX="$ANDROID_NDK_LATEST_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android29-clang++"
+          # sources that need generated/ (image_symbols.h) are left to the full build on a machine that has the game
+          for f in sdk/runtime/core/log.cpp sdk/runtime/cpu/dispatch.cpp sdk/runtime/kernel/memory.cpp \
+                   sdk/runtime/gpu/vulkan.cpp sdk/runtime/gpu/spirv.cpp sdk/runtime/gpu/shaders.cpp \
+                   sdk/runtime/gpu/vertex.cpp sdk/runtime/gpu/texture.cpp; do
+            echo "== $f"
+            "$CXX" -std=c++20 -fsyntax-only -Wno-everything -Isrc -Isdk/runtime -Isdk/harness/compat \
+              -Ithird_party/glslang -I"$RUNNER_TEMP/SDL/include" "$f"
+          done
+      - name: Java and resources
+        run: |
+          BT="$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)"
+          AJ="$ANDROID_HOME/platforms/android-35/android.jar"
+          mkdir -p out/classes
+          javac -encoding UTF-8 -Xlint:-options -source 8 -target 8 -cp "$AJ" -d out/classes \
+            "$RUNNER_TEMP"/SDL/android-project/app/src/main/java/org/libsdl/app/*.java android/java/io/github/juiced/*.java
+          "$BT/aapt2" compile --dir android/res -o out/res.zip
+          "$BT/aapt2" link -o out/base.apk --manifest android/AndroidManifest.xml -I "$AJ" -R out/res.zip \
+            --min-sdk-version 29 --target-sdk-version 35

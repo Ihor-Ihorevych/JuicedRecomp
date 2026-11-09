@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="512" height="512">
+  <!-- source of android/res/drawable/ic_launcher_*.xml: an original cartoon rat on a cheese-orange tile -->
+  <rect width="108" height="108" fill="#E58A2E"/>
+  <circle cx="54" cy="104" r="46" fill="#F2A24A"/>
+  <!-- ears -->
+  <path fill="#8E8A99" d="M25,38 a11,11 0 1,0 22,0 a11,11 0 1,0 -22,0 Z M61,38 a11,11 0 1,0 22,0 a11,11 0 1,0 -22,0 Z"/>
+  <path fill="#F4A9B8" d="M29.5,38 a6.5,6.5 0 1,0 13,0 a6.5,6.5 0 1,0 -13,0 Z M65.5,38 a6.5,6.5 0 1,0 13,0 a6.5,6.5 0 1,0 -13,0 Z"/>
+  <!-- head -->
+  <path fill="#A7A3B3" d="M54,30 C72,30 80,44 78,58 C76,72 66,80 54,80 C42,80 32,72 30,58 C28,44 36,30 54,30 Z"/>
+  <!-- snout -->
+  <path fill="#CFCCDA" d="M54,57 C62,57 68,63 66.5,70 C65,76 59,78.5 54,78.5 C49,78.5 43,76 41.5,70 C40,63 46,57 54,57 Z"/>
+  <!-- nose and mouth -->
+  <path fill="#E56F8C" d="M50.8,64 a3.2,3.2 0 1,0 6.4,0 a3.2,3.2 0 1,0 -6.4,0 Z"/>
+  <path fill="none" stroke="#5A4E63" stroke-width="1.2" stroke-linecap="round" d="M54,67.2 V70.5 M54,70.5 Q51.5,73.5 48.5,71.8 M54,70.5 Q56.5,73.5 59.5,71.8"/>
+  <!-- eyes -->
+  <path fill="#2B2433" d="M39.6,50 a3.4,3.4 0 1,0 6.8,0 a3.4,3.4 0 1,0 -6.8,0 Z M61.6,50 a3.4,3.4 0 1,0 6.8,0 a3.4,3.4 0 1,0 -6.8,0 Z"/>
+  <path fill="#FFFFFF" d="M42,48.6 a1.1,1.1 0 1,0 2.2,0 a1.1,1.1 0 1,0 -2.2,0 Z M64,48.6 a1.1,1.1 0 1,0 2.2,0 a1.1,1.1 0 1,0 -2.2,0 Z"/>
+  <!-- whiskers -->
+  <path fill="none" stroke="#FFFFFF" stroke-width="1.1" stroke-linecap="round" d="M44,68 L25,63.5 M44,71 L25,73.5 M64,68 L83,63.5 M64,71 L83,73.5"/>
+</svg>
