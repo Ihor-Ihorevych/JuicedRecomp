@@ -158,6 +158,8 @@ public class TouchControls extends View implements InputManager.InputDeviceListe
     // the game's R and L are the triggers or the Black and White buttons: each button sends both, the other pair is unused
     private final Control sprint = new Control(0, RT, 0xFFFF9800, filled(SPRINT));
     private final Control sniff = new Control(0, LT, 0xFFAB47BC, new Icon(null, SNIFF, 2.0f, false));
+    private final Control black = new Control(0, BLACK, 0xFF616161, filled(START_ICON));
+    private final Control white = new Control(0, WHITE, 0xFF9E9E9E, filled(START_ICON));
     private final Control select = new Control(BACK, -1, 0xFFBDBDBD, filled(SELECT));
     private final Control start = new Control(START, -1, 0xFFBDBDBD, filled(START_ICON));
     private final Control camera = new Control(R3, -1, 0xFFBDBDBD, new Icon(CAMERA_FILL, CAMERA_STROKE, 1.8f, false));
@@ -167,10 +169,10 @@ public class TouchControls extends View implements InputManager.InputDeviceListe
     private final Control down = new Control(DPAD_DOWN, -1, 0xFF78909C, filled(ARROW_DOWN));
     private final Control leftArrow = new Control(DPAD_LEFT, -1, 0xFF78909C, filled(ARROW_LEFT));
     private final Control rightArrow = new Control(DPAD_RIGHT, -1, 0xFF78909C, filled(ARROW_RIGHT));
-    private final Control[] controls = {jump, attack, use, hud, sprint, sniff, select, start, camera, settings,
+    private final Control[] controls = {jump, attack, use, hud, sprint, sniff, black, white, select, start, camera, settings,
                                         up, down, leftArrow, rightArrow};
     // the saved layout's names, in the order of controls
-    private static final String[] KEYS = {"jump", "attack", "use", "hud", "sprint", "sniff", "select", "start", "camera",
+    private static final String[] KEYS = {"jump", "attack", "use", "hud", "sprint", "sniff", "black", "white", "select", "start", "camera",
                                           "settings", "up", "down", "left", "right"};
     private boolean xboxLayout;  // letters (A B X Y, LT RT) on the buttons instead of the icons
 
@@ -196,8 +198,8 @@ public class TouchControls extends View implements InputManager.InputDeviceListe
         hud.xbox("Y", 0xFFFDD835);
         sprint.xbox("RT", 0xFFFF9800);
         sniff.xbox("LT", 0xFFAB47BC);
-        sprint.analog2 = BLACK;
-        sniff.analog2 = WHITE;
+        black.xbox("BLK", 0xFF616161);
+        white.xbox("WHT", 0xFF9E9E9E);
         for (int i = 0; i < controls.length; i++) controls[i].key = KEYS[i];
         Control[] dpad = {up, down, leftArrow, rightArrow};
         for (Control c : dpad) c.group = dpad;
@@ -295,14 +297,16 @@ public class TouchControls extends View implements InputManager.InputDeviceListe
         box(select, w - 28 * u, 8 * u, 6 * u, 5 * u);
         box(start, w - 14 * u, 8 * u, 6 * u, 5 * u);
         // under them: sniff
-        box(sniff, w - 14 * u, 23 * u, 7 * u, 6 * u);
+        box(black, w - 14 * u, 23 * u, 7 * u, 6 * u);
+        box(white, w - 30 * u, 23 * u, 7 * u, 6 * u);
+        place(sniff, w - 66 * u, 62 * u, 8 * u);
         // bottom right, within reach of the thumb: the four face buttons in a diamond like the controller's
         // (Jump below, Fight/drop right, Use/move left, HUD above), Sprint beside them
         place(jump, w - 24 * u, 85 * u, 8 * u);
         place(attack, w - 10 * u, 70 * u, 8 * u);
         place(use, w - 38 * u, 70 * u, 8 * u);
         place(hud, w - 24 * u, 55 * u, 6.5f * u);
-        place(sprint, w - 58 * u, 78 * u, 8 * u);
+        place(sprint, w - 56 * u, 88 * u, 9.5f * u);
         place(camera, w - 76 * u, 91 * u, 5 * u);
     }
 
@@ -710,8 +714,8 @@ public class TouchControls extends View implements InputManager.InputDeviceListe
         SharedPreferences prefs = getContext().getSharedPreferences(GameActivity.PREFS, Context.MODE_PRIVATE);
         controlsAlpha = Math.max(25, Math.min(100, prefs.getInt(GameActivity.CONTROLS_ALPHA, 100))) / 100f;
         controlsShown = prefs.getBoolean(GameActivity.CONTROLS_SHOWN, true);
-        xboxLayout = prefs.getInt(GameActivity.CONTROLS_LAYOUT, 0) == 1;
-        dpadShown = prefs.getBoolean(GameActivity.DPAD_SHOWN, false);
+        xboxLayout = prefs.getInt(GameActivity.CONTROLS_LAYOUT, 1) == 1;
+        dpadShown = prefs.getBoolean(GameActivity.DPAD_SHOWN, true);
         cameraStickShown = prefs.getBoolean(GameActivity.CAMERA_STICK_SHOWN, false);
         forceTouch = prefs.getBoolean(GameActivity.FORCE_TOUCH, false);
         if (!controlsShown || !dpadShown || gamepadMode()) release();

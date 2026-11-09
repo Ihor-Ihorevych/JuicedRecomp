@@ -115,6 +115,12 @@ public class GameActivity extends SDLActivity {
             getWindow().setAttributes(lp);
         }
         super.onCreate(savedInstanceState);  // loads libmain.so
+        // no game folder yet: back to the picker, and no controls on the screen
+        if (!new java.io.File(new java.io.File(getExternalFilesDir(null), "game"), "default.xbe").isFile()) {
+            startActivity(new android.content.Intent(this, SetupActivity.class));
+            finish();
+            return;
+        }
         // the saved resolution is in force before the game's first frame
         SharedPreferences prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE);
         nativeSetResolution(prefs.getInt(RESOLUTION, 100));

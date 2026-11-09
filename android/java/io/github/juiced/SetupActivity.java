@@ -135,8 +135,8 @@ public class SetupActivity extends Activity {
     private void askForFolder() {
         bar.setVisibility(View.GONE);
         choose.setVisibility(View.VISIBLE);
-        chooseZip.setVisibility(View.VISIBLE);
-        status.setText("Select juiced-game.zip, or the folder with the game's files (the one that holds " + XBE
+        chooseZip.setVisibility(View.GONE);
+        status.setText("Select the folder with the game's files (the one that holds " + XBE
             + ", from your extracted disc image).\nThey are copied into the app once.");
     }
 
@@ -160,7 +160,7 @@ public class SetupActivity extends Activity {
             status.setText(message);
             bar.setVisibility(View.GONE);
             choose.setVisibility(View.VISIBLE);
-            chooseZip.setVisibility(View.VISIBLE);
+            chooseZip.setVisibility(View.GONE);
         });
     }
 

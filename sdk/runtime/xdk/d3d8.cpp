@@ -677,7 +677,18 @@ HLE_STDCALL(D3DDevice_CopyRects, 5) {
 HLE_STDCALL(D3DDevice_SetViewport, 1) {
     std::lock_guard<std::recursive_mutex> lock(g_lock);
     uint32_t v = a[0];
-    g_state.viewport = {R32(v), R32(v + 4), R32(v + 8), R32(v + 12), GF(v + 16), GF(v + 20)};
+    if (v) {
+        g_state.viewport = {R32(v), R32(v + 4), R32(v + 8), R32(v + 12), GF(v + 16), GF(v + 20)};
+    } else {
+        // NULL: the whole render target, as the library's own SetViewport does
+        uint32_t w = 640, h = 480;
+        if (uint32_t rt = Dev(kDevRenderTarget)) {
+            uint32_t size = R32(rt + 16);
+            w = (size & 0xFFF) + 1;
+            h = ((size >> 12) & 0xFFF) + 1;
+        }
+        g_state.viewport = {0, 0, w, h, 0.0f, 1.0f};
+    }
     g_state.scissor_count = 0;
     UpdateViewportConstants();
     return 0;

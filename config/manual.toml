@@ -13,6 +13,7 @@ D3DDevice_SetShaderConstantMode         = ["eax"]
 D3DDevice_SetStreamSource               = ["eax", "edi", "ebx"]                    # StreamNumber eax (*12), pStreamData edi, Stride ebx
 D3DDevice_SetTexture                    = ["ecx", "eax"]                           # Stage ecx indexes the texture table, pTexture eax
 D3DDevice_SetTextureState_TexCoordIndex = ["esi", "stack"]                         # Stage esi (<<7), Value stack
+D3DDevice_SetTile                       = ["ecx", "eax"]                           # Index ecx (*24 into the tile table at +0x1AC0), pTile eax
 D3DDevice_SetTransform                  = ["eax", "edx"]                           # State eax (*64), pMatrix edx
 D3DDevice_Swap                          = ["eax"]                                  # Flags
 D3DResource_IsBusy                      = ["eax"]

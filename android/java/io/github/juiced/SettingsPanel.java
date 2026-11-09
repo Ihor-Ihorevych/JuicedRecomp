@@ -349,7 +349,7 @@ final class SettingsPanel {
         box.addView(opacity, match());
         box.addView(text("Button style", 14, TEXT, false), margin(wrap(), 0, 4, 0, 0));
         Segmented style = new Segmented(ctx, "Game icons", "Xbox buttons");
-        style.setSelected(prefs.getInt(GameActivity.CONTROLS_LAYOUT, 0) == 1 ? 1 : 0);
+        style.setSelected(prefs.getInt(GameActivity.CONTROLS_LAYOUT, 1) == 1 ? 1 : 0);
         style.setListener(index -> {
             prefs.edit().putInt(GameActivity.CONTROLS_LAYOUT, index).apply();
             owner.applyPrefs();
@@ -377,7 +377,7 @@ final class SettingsPanel {
                          + "the like).", 12, DIM, false), margin(wrap(), 0, 8, 0, 8));
         box.addView(text("D-pad arrows", 14, TEXT, false), margin(wrap(), 0, 4, 0, 0));
         Segmented dpad = new Segmented(ctx, "Shown", "Hidden");
-        dpad.setSelected(prefs.getBoolean(GameActivity.DPAD_SHOWN, false) ? 0 : 1);
+        dpad.setSelected(prefs.getBoolean(GameActivity.DPAD_SHOWN, true) ? 0 : 1);
         dpad.setListener(index -> {
             prefs.edit().putBoolean(GameActivity.DPAD_SHOWN, index == 0).apply();
             owner.applyPrefs();
